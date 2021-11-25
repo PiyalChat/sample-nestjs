@@ -55,7 +55,7 @@ export class AuthenticationService {
   ) {
     const employee = await this.findEmployee(empGuid);
     if (!id || !name || !password) {
-      throw new Error('not all values were filled');
+      throw new Error('Not all values were filled');
     }
     employee.id = id;
     employee.name = name;
