@@ -37,10 +37,11 @@ $ npm install
 ```bash
 # development
 $ npm run start
+$ nest start
 
 # watch mode
 $ npm run start:dev
-$ nest start
+$ nest start --watch
 
 # production mode
 $ npm run start:prod
