@@ -6,8 +6,10 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { AuthenticationService } from './authentication.service';
+import { AzureADGuard } from './azure-ad.guard';
 
 @Controller('employees')
 export class AuthenticationController {
@@ -27,6 +29,7 @@ export class AuthenticationController {
   }
 
   @Get()
+  @UseGuards(AzureADGuard)
   async getAllEmployees() {
     return await this.authenticationService.getEmployees();
   }
