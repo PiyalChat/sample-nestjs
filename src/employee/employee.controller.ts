@@ -1,20 +1,12 @@
-import {
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Patch,
-  Post
-} from '@nestjs/common';
+import { Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { EmployeeService } from './employee.service';
 
 @Controller('employees')
 export class EmployeeController {
   constructor(private readonly employeeService: EmployeeService) {}
   @Post()
-  async addEmployee(
-  ) {
-    return  await this.employeeService.addEmployees()
+  async addEmployee() {
+    return await this.employeeService.addEmployees();
   }
 
   @Get()
@@ -34,6 +26,6 @@ export class EmployeeController {
 
   @Delete(':guid')
   async removeEmployee() {
-    return await this.employeeService.removeEmployee(); 
+    return await this.employeeService.removeEmployee();
   }
 }

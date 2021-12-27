@@ -5,20 +5,20 @@ import * as passport from 'passport';
 
 @Injectable()
 export class AuthMiddleware implements NestMiddleware {
-    constructor() {}
-    use(req: Request, res: Response, next: NextFunction) {
-        console.log("Request Received");
-        
-        passport.use(new AzureADStrategy())
-        passport.authenticate('azure-ad', (err, user, info) =>
-        { 
-            console.log('user',user);
-            console.log('info',info);
-            if (user) { return next(); }
-            res.status(401).json({
-                statusCode: 401,
-                requestedDate: new Date().toISOString(),
-                path: req.url,});
-        })(req,res,next);
-    }
+  constructor() {}
+  use(req: Request, res: Response, next: NextFunction) {
+    console.log('Request Received');
+
+    passport.use(new AzureADStrategy());
+    passport.authenticate('azure-ad', (err, user, info) => {
+      if (user) {
+        return next();
+      }
+      res.status(401).json({
+        statusCode: 401,
+        requestedDate: new Date().toISOString(),
+        path: req.url,
+      });
+    })(req, res, next);
+  }
 }
