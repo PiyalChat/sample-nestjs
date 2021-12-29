@@ -1,20 +1,29 @@
-import { Module } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+} from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { AuthenticationModule } from './authentication/authentication.module';
-import { MongooseModule } from '@nestjs/mongoose';
-import { AzureADStrategy } from './authentication/azure-ad.guard';
+import { EmployeeModule } from './employee/employee.module';
 import { PassportModule } from '@nestjs/passport';
+import { AuthMiddleware } from './auth.middleware';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
     PassportModule,
-    AuthenticationModule,
-    MongooseModule.forRoot(
-      'mongodb+srv://piyal:piyal123@cluster0.ys9sg.mongodb.net/nestjs-employee-demo?retryWrites=true&w=majority',
-    ),
+    EmployeeModule,
+    ConfigModule.forRoot({ isGlobal: true }),
   ],
   controllers: [AppController],
-  providers: [AppService, AzureADStrategy],
+  providers: [AppService],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(AuthMiddleware)
+      .forRoutes({ path: '*', method: RequestMethod.ALL });
+  }
+}
